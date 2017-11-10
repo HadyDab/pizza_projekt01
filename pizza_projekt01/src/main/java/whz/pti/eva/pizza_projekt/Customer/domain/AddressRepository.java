@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface AddressRepository extends JpaRepository<Address,Integer>{
 
-    List<Address> findAdressesBycustomerList(Customer customer);
+    List<Address> findAdressesByCustomerList(Customer customer);
 
 }

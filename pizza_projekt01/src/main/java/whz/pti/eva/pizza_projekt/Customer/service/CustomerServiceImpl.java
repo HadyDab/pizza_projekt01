@@ -94,7 +94,7 @@ public class CustomerServiceImpl implements CustomerService{
        List<Address> customerAddress = new ArrayList<>();
        Customer customer = new Customer();
        customer = customerRepository.findByLoginName(loginName);
-        return customerAddress = addressRepository.findAdressesBycustomerList(customer);
+        return customerAddress = addressRepository.findAdressesByCustomerList(customer);
     }
 
 

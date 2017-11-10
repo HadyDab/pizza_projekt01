@@ -31,9 +31,12 @@ public class PizzaProjektApplication {
 		//customerService.addCustomer("jkas","hdfs","utrzs","zthds");
 
 		//customerService.getAllCustomers().forEach(customer -> System.out.println(customer.getFirstName()));
+
 		//System.out.println(customerService.getCustomerByLoginName("letss"));
 
 		//customerService.addCustomerAdress("letss","hallowe","5","zwickau","5463");
+
+		//customerService.addCustomerAdress("letss","zetrgt","10","Zwickau","5463");
 
 		//System.out.println(customerService.getAdressesForCustomer("letss"));
 
