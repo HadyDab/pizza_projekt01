@@ -26,7 +26,8 @@ public class ShoppingCart implements Serializable{
     private Customer customer;
 
 
-
+    public ShoppingCart() {
+    }
 
     public ShoppingCart(Date createdDate) {
         this.createdDate = createdDate;
@@ -94,5 +95,16 @@ public class ShoppingCart implements Serializable{
     @Override
     public int hashCode() {
         return getId();
+    }
+
+
+    @Override
+    public String toString() {
+        return "ShoppingCart{" +
+                "id=" + id +
+                ", createdDate=" + createdDate +
+                ", itemsList=" + itemsList +
+                ", customer=" + customer +
+                '}';
     }
 }

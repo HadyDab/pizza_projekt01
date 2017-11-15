@@ -45,8 +45,8 @@ public class Item implements Serializable{
 
 
 
-    public void addQuantity(){
-        this.quantity++;
+    public void addQuantity(int quantity){
+        this.quantity = quantity;
     }
 
 
