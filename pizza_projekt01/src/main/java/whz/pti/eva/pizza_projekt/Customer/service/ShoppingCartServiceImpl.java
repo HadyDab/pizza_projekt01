@@ -41,10 +41,26 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         item.addPizza(pizza).addQuantity(quantity);
         itemRepository.save(item);
         Customer customer = customerRepository.findByLoginName(loginName);
-        ShoppingCart shoppingCart = new ShoppingCart(new Date());
-        shoppingCart.addItems(item);
-        shoppingCart.addCustomer(customer);
-        shoppingCartRepository.save(shoppingCart);
+        ShoppingCart shoppingCart;
+        boolean newCart = true;
+        List<ShoppingCart> allCart = shoppingCartRepository.findAll();
+        for(ShoppingCart cart : allCart){
+            if(cart.getCustomer().getLoginName().equals(loginName)){
+                newCart = false;
+                shoppingCart = cart;
+                shoppingCart.addItems(item);
+                break;
+            }
+        }
+        if(newCart){
+            shoppingCart = new ShoppingCart(new Date());
+            shoppingCart.addItems(item);
+            shoppingCart.addCustomer(customer);
+            shoppingCartRepository.save(shoppingCart);
+        }
+
+
+
 
     }
 

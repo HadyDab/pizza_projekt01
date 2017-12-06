@@ -10,14 +10,18 @@ import java.io.Serializable;
 public class Pizza implements Serializable {
 
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
 
-    private  String name;
+    private String name;
     private String description;
 
+
+    public Pizza() {
+    }
+
     /**
-     *
      * @param name
      * @param description
      */
@@ -38,9 +42,6 @@ public class Pizza implements Serializable {
     public String getDescription() {
         return description;
     }
-
-
-
 
 
     @Override

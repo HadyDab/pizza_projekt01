@@ -8,8 +8,10 @@ import java.util.List;
 public interface CustomerService {
 
     List<Customer> getAllCustomers();
+
     void addCustomer(String firstName, String lastName, String loginName,
                      String passwordHash);
+
     Customer getCustomerByLoginName(String loginName);
 
     void addCustomerAdress(String loginName, String street, String

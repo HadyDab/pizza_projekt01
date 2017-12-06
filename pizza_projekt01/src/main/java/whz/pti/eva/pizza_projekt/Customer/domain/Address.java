@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Address implements Serializable{
+public class Address implements Serializable {
 
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
-
 
 
     private String street;
@@ -25,14 +25,14 @@ public class Address implements Serializable{
 
 
     @ManyToMany(mappedBy = "addressList")
-   private List<Customer> customerList;
+    private List<Customer> customerList;
 
 
-    public Address(){}
+    public Address() {
+    }
 
 
     /**
-     *
      * @param street
      * @param houseNumber
      * @param town
@@ -71,26 +71,18 @@ public class Address implements Serializable{
     }
 
 
-
-
-
-
-
     /**
-     *
      * @param customer
      */
-    public Address addCustomer(Customer customer){
+    public Address addCustomer(Customer customer) {
         this.customerList.add(customer);
         return this;
     }
 
     /**
-     *
      * @param customer
      */
-    public void deleteCustomer(Customer customer)
-    {
+    public void deleteCustomer(Customer customer) {
         this.customerList.remove(customer);
     }
 

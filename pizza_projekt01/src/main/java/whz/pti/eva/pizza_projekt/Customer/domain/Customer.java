@@ -11,9 +11,9 @@ import java.util.List;
 @Entity
 public class Customer implements Serializable {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
-
 
 
     private String firstName;
@@ -26,7 +26,7 @@ public class Customer implements Serializable {
     private List<Address> addressList;
 
 
-    public Customer(){
+    public Customer() {
 
     }
 
@@ -64,26 +64,23 @@ public class Customer implements Serializable {
     }
 
     /**
-     *
      * @param address
      */
-    public Customer addAddress(Address address){
+    public Customer addAddress(Address address) {
         this.addressList.add(address);
         return this;
 
     }
 
     /**
-     *
      * @param address
      */
-    public void deleteAddress(Address address){
+    public void deleteAddress(Address address) {
         this.addressList.remove(address);
     }
 
 
     /**
-     *
      * @return
      */
     @Override
@@ -111,7 +108,6 @@ public class Customer implements Serializable {
     public int hashCode() {
         return getId();
     }
-
 
 
 }

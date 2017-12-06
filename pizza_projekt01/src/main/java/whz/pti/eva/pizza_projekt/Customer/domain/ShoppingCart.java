@@ -8,11 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class ShoppingCart implements Serializable{
+public class ShoppingCart implements Serializable {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
-
 
 
     private Date createdDate;
@@ -53,30 +53,29 @@ public class ShoppingCart implements Serializable{
     }
 
     /**
-     *
      * @param item
      * @return
      */
-    public ShoppingCart addItems(Item item){
+    public ShoppingCart addItems(Item item) {
         this.itemsList.add(item);
         return this;
     }
 
     /**
      * Delete this Item from the ShoppingCart
+     *
      * @param item
      */
-    public void deleteItem(Item item){
+    public void deleteItem(Item item) {
         this.itemsList.remove(item);
     }
 
 
     /**
-     *
      * @param customer
      * @return
      */
-    public ShoppingCart addCustomer(Customer customer){
+    public ShoppingCart addCustomer(Customer customer) {
         this.customer = customer;
         return this;
     }

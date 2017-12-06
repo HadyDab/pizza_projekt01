@@ -13,15 +13,15 @@ import java.util.List;
 
 
 @Service
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
 
 
-     private CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
-     private  AddressRepository addressRepository;
+    private AddressRepository addressRepository;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, AddressRepository addressRepository){
+    public CustomerServiceImpl(CustomerRepository customerRepository, AddressRepository addressRepository) {
         this.customerRepository = customerRepository;
         this.addressRepository = addressRepository;
 
@@ -29,7 +29,6 @@ public class CustomerServiceImpl implements CustomerService{
 
 
     /**
-     *
      * @return
      */
     @Override
@@ -40,7 +39,6 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     /**
-     *
      * @param firstName
      * @param lastName
      * @param loginName
@@ -48,12 +46,11 @@ public class CustomerServiceImpl implements CustomerService{
      */
     @Override
     public void addCustomer(String firstName, String lastName, String loginName, String passwordHash) {
-        Customer customer = new Customer(firstName,lastName,loginName,passwordHash);
+        Customer customer = new Customer(firstName, lastName, loginName, passwordHash);
         customerRepository.save(customer);
     }
 
     /**
-     *
      * @param loginName
      * @return
      */
@@ -63,7 +60,6 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     /**
-     *
      * @param loginName
      * @param street
      * @param housenumber
@@ -73,7 +69,7 @@ public class CustomerServiceImpl implements CustomerService{
     @javax.transaction.Transactional
     @Override
     public void addCustomerAdress(String loginName, String street, String housenumber, String town, String zipcode) {
-        Address address = new Address(street,housenumber,town,zipcode);
+        Address address = new Address(street, housenumber, town, zipcode);
         addressRepository.save(address);
         Customer customer = new Customer();
         customer = customerRepository.findByLoginName(loginName);
@@ -84,20 +80,17 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     /**
-     *
      * @param loginName
      * @return
      */
     @Override
     public List<Address> getAdressesForCustomer(String loginName) {
 
-       List<Address> customerAddress = new ArrayList<>();
-       Customer customer = new Customer();
-       customer = customerRepository.findByLoginName(loginName);
+        List<Address> customerAddress = new ArrayList<>();
+        Customer customer = new Customer();
+        customer = customerRepository.findByLoginName(loginName);
         return customerAddress = addressRepository.findAdressesByCustomerList(customer);
     }
-
-
 
 
 }

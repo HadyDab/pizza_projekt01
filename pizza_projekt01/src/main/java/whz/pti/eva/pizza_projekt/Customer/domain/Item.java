@@ -7,13 +7,11 @@ import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Entity
-public class Item implements Serializable{
+public class Item implements Serializable {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
-
-
-
 
 
     private int quantity;
@@ -23,10 +21,9 @@ public class Item implements Serializable{
     private Pizza pizza;
 
 
-    public Item(){
+    public Item() {
 
     }
-
 
 
     public int getId() {
@@ -42,27 +39,22 @@ public class Item implements Serializable{
     }
 
 
-
-
-
-    public void addQuantity(int quantity){
+    public void addQuantity(int quantity) {
         this.quantity = quantity;
     }
 
 
-
-    public void resetQuantity(){
+    public void resetQuantity() {
         this.quantity = 0;
     }
 
     /**
-     *
      * @param pizza
      * @return
      */
-    public Item addPizza(Pizza pizza){
-            this.pizza = pizza;
-            return this;
+    public Item addPizza(Pizza pizza) {
+        this.pizza = pizza;
+        return this;
     }
 
 
@@ -80,7 +72,6 @@ public class Item implements Serializable{
     public int hashCode() {
         return getId();
     }
-
 
 
 }
