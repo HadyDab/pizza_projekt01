@@ -28,7 +28,7 @@ public class PizzaProjektApplication {
     CommandLineRunner init() {
         return (evt) -> {
 
-            customerService.addCustomer("hadfs", "hjsd", "letss", "hzrut");
+            customerService.addCustomer("Adam", "Smith", "smithD", "123abc");
 
             //customerService.addCustomer("jkas","hdfs","utrzs","zthds");
 
@@ -36,10 +36,11 @@ public class PizzaProjektApplication {
 
             //System.out.println(customerService.getCustomerByLoginName("letss"));
 
-            customerService.addCustomerAdress("letss", "hallowe", "5", "zwickau", "5463");
+            customerService.addCustomerAdress("smithD", "Oxfordstreet", "5", "London", "DT345W");
+            customerService.addCustomerAdress("smithD","Queen Hellen ave","246","London","W569D8");
 
-            shoppingCartService.addItemToCart("letss", "PizzaMagarita", "mit käse ohne champinion", 2);
-            shoppingCartService.addItemToCart("letss", "Pizzathurnfish", "mit Zwible", 3);
+            shoppingCartService.addItemToCart("smithD", "PizzaMagarita", "mit käse ohne champinion", 2);
+            shoppingCartService.addItemToCart("smithD", "Pizzathurnfish", "mit Zwible", 3);
 
             //customerService.addCustomerAdress("letss","zetrgt","10","Zwickau","5463");
 

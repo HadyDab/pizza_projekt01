@@ -24,11 +24,11 @@ public class CustomerController {
 
     @RequestMapping("user_details")
     public String showUserDetails(Model model){
-    Customer customer = customerService.getCustomerByLoginName("letss");
+    Customer customer = customerService.getCustomerByLoginName("smithD");
     List<Address> customerAddress = customerService.getAdressesForCustomer(customer.getLoginName());
         model.addAttribute(customer);
         model.addAttribute("customerAddress",customerAddress);
-        System.out.println(customerAddress.get(0).getStreet());
+        //System.out.println(customerAddress.get(0).getStreet());
         return "user_details";
     }
 

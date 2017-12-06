@@ -45,20 +45,20 @@ min.css"/>
         </tr>
         </tbody>
     </table>
-
+        <td><button>Edit Customer</button></td>
     <h2>Address</h2>
     <hr />
         <table class="table table-hover table-bordered table-fixed">
             <thead>
                    <tr>
-                        <th class="col-md-3">FirstName </th>
-                        <th class="col-md-3">LastName </th>
+                        <th class="col-md-3">Addresse </th>
+                        <th class="col-md-3"></th>
                     </tr>
             </thead>
             <tbody>
     <tr th:each="address : ${customerAddress}">
             <td th:text="${address.street}+', '+${address.houseNumber}+', '+${address.zipcode}+', '+${address.town}">nix</td>
-        <td><button>test</button></td>
+        <td><button>Edit Address</button></td>
     </tr>
             </tbody></table>
 </body>
