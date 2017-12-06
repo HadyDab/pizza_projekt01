@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>PizzaProjekt</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+"/>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstraptheme.
+min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css"
+          th:href="@{css/mystyle.css}" media="screen"/>
+</head>
+<body>
+<hr class="container" />
+    <div class="page-header">
+        <h1><span th:text="Customer"></span></h1>
+    </div>
+    <table class="table table-hover table-bordered table-fixed">
+        <thead>
+<!--        <tr>
+            <th class="col-md-3">FirstName </th>
+            <th class="col-md-3">LastName </th>
+            <th class="col-md-3">LoginName</th>
+        </tr>-->
+        </thead>
+        <tbody>
+        <tr>
+                <td class="col-md-4">FirstName</td>
+                <td class="col-md-4" th:text="${customer.firstName}">nix</td>
+        </tr>
+        <tr>
+                <td class="col-md-4">LastName</td>
+                <td class="col-md-4" th:text="${customer.lastName}">nix</td>
+        </tr>
+        <tr>
+                <td class="col-md-4">LoginName</td>
+                <td class="col-md-4" th:text="${customer.loginName}">nix</td>
+        </tr>
+        <tr>
+                <td class="col-md-4">PasswordHash</td>
+                <td class="col-md-4" th:text="${customer.passwordHash}">nix</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Address</h2>
+    <hr />
+        <table class="table table-hover table-bordered table-fixed">
+            <thead>
+                   <tr>
+                        <th class="col-md-3">FirstName </th>
+                        <th class="col-md-3">LastName </th>
+                    </tr>
+            </thead>
+            <tbody>
+    <tr th:each="address : ${customerAddress}">
+            <td th:text="${address.street}+', '+${address.houseNumber}+', '+${address.zipcode}+', '+${address.town}">nix</td>
+        <td><button>test</button></td>
+    </tr>
+            </tbody></table>
+</body>
+</html>
