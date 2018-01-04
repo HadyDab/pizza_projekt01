@@ -14,8 +14,10 @@ public class Pizza implements Serializable {
     @GeneratedValue
     private int id;
 
+
     private String name;
     private String description;
+    private double price;
 
 
     public Pizza() {
@@ -25,9 +27,10 @@ public class Pizza implements Serializable {
      * @param name
      * @param description
      */
-    public Pizza(String name, String description) {
+    public Pizza(String name, String description, double price) {
         this.name = name;
         this.description = description;
+        this.price = price;
     }
 
 
@@ -43,6 +46,9 @@ public class Pizza implements Serializable {
         return description;
     }
 
+    public double getPrice() {
+        return price;
+    }
 
     @Override
     public boolean equals(Object o) {

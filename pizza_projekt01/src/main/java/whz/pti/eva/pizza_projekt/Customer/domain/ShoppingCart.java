@@ -22,7 +22,8 @@ public class ShoppingCart implements Serializable {
     private List<Item> itemsList;
 
 
-    @ManyToOne
+    @OneToOne
+    @MapsId
     private Customer customer;
 
 
@@ -78,6 +79,16 @@ public class ShoppingCart implements Serializable {
     public ShoppingCart addCustomer(Customer customer) {
         this.customer = customer;
         return this;
+    }
+
+
+    public Item findthisItem(Item item){
+        for(Item i: itemsList){
+            if(i.equals(item)){
+                return i;
+            }
+        }
+        return null;
     }
 
 

@@ -1,9 +1,6 @@
 package whz.pti.eva.pizza_projekt.Customer.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +22,10 @@ public class Customer implements Serializable {
     @ManyToMany
     private List<Address> addressList;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private ShoppingCart shoppingCart;
+
+
 
     public Customer() {
 
@@ -37,6 +38,9 @@ public class Customer implements Serializable {
         this.passwordHash = passwordHash;
         this.addressList = new ArrayList<>();
     }
+
+
+
 
 
     public int getId() {
@@ -62,6 +66,27 @@ public class Customer implements Serializable {
     public List<Address> getAddressList() {
         return addressList;
     }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
 
     /**
      * @param address
@@ -108,6 +133,9 @@ public class Customer implements Serializable {
     public int hashCode() {
         return getId();
     }
+
+
+
 
 
 }

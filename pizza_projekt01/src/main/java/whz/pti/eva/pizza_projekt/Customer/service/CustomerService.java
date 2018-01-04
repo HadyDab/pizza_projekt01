@@ -18,4 +18,8 @@ public interface CustomerService {
             housenumber, String town, String zipcode);
 
     List<Address> getAdressesForCustomer(String loginName);
+
+    void editCustomer(String firstName, String lastName, String loginName, String passwordHash);
+
+
 }

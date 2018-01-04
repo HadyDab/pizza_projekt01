@@ -92,5 +92,15 @@ public class CustomerServiceImpl implements CustomerService {
         return customerAddress = addressRepository.findAdressesByCustomerList(customer);
     }
 
+    @Override
+    public void editCustomer(String firstName, String lastName, String loginName, String passwordHash) {
+        Customer customer = customerRepository.findByLoginName(loginName);
+         customer.setFirstName(firstName);
+         customer.setLastName(lastName);
+         customer.setPasswordHash(passwordHash);
+         customerRepository.save(customer);
+    }
+
+
 
 }

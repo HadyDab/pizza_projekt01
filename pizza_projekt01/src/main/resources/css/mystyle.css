@@ -13,6 +13,11 @@ h2{
     margin-top: 0px;
 }
 
+h1{
+    text-align: center;
+    margin-top: 2px;
+}
+
 .pass{
     margin-top: 10px;
 }

@@ -71,6 +71,22 @@ public class Address implements Serializable {
     }
 
 
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
     /**
      * @param customer
      */

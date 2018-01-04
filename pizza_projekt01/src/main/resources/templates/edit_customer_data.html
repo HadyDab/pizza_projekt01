@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+
+<head>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+"/>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstraptheme.
+min.css"/>
+
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css"
+          th:href="@{css/mystyle.css}" media="screen"/>
+
+    <meta charset="UTF-8" />
+    <title>Edit Customer Data</title>
+
+</head>
+<body>
+
+<div>
+    <div class="page-header"><h1>Edit Customer Data</h1></div>
+
+    <form th:action="@{/finishEditCustomerData}"
+          method="post">
+        <div class="form-group">
+            <table class="table table-hover table-bordered table-fixed">
+                <thead>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-md-4">FirstName</td>
+                    <td class="col-md-4" >
+                        <input class="form-control" type="text" name="firstName"
+                               maxlength="255" th:value="${customer.firstName}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">LastName</td>
+                    <td class="col-md-4" >
+                        <input class="form-control" type="text" name="lastName"
+                               maxlength="255" th:value="${customer.lastName}"/>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="col-md-4">PasswordHash</td>
+                    <td class="col-md-4">
+                        <input class="form-control" type="text" name="passwordHash"
+                               maxlength="255" th:value="${customer.passwordHash}"/>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+            <br/>
+            <input type="hidden" name="loginName" th:value="${customer.loginName}"/>
+            <input type="submit" class="btn btn-primary btn-sm" value="Save Customer"/>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

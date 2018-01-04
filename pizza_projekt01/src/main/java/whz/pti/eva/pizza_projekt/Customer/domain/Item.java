@@ -16,14 +16,17 @@ public class Item implements Serializable {
 
     private int quantity;
 
-
     @ManyToOne
     private Pizza pizza;
 
 
-    public Item() {
-
+    public Item(Pizza pizza,int quantity) {
+        this.pizza = pizza;
+        this.quantity = quantity;
     }
+
+
+    public Item(){}
 
 
     public int getId() {
