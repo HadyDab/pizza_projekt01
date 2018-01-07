@@ -13,34 +13,83 @@ min.css"/>
     <link rel="stylesheet" type="text/css" href="css/mystyle.css"
           th:href="@{css/mystyle.css}" media="screen"/>
 </head>
-<body>
+<body style="background-color:powderblue;">
 
-<div th:replace="fragments/header :: header">
-
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="container">
-    <div class="hero-unit">
-        <h1><span> Test </span></h1>
-        <p>
-            Welcome to the Spring MVC Quickstart application!
-            Get started quickly by signing up.
-        </p>
-        <p>
-            <a href="/signup" th:href="@{/signup}" class="btn btn-large btn-success">Sign up</a>
-        </p>
+
+    <div><ul class="nav navbar-nav navbar-right">
+
+
+        <li><a>
+            <h3>
+                     <span th:if="${currentUser != null}"
+                           th:text="' loged in as ' + ':' + ${currentUser.loginName}">FROMTO_PLACEHOLDER</span>
+            </h3>
+        </a></li>
+
+    </ul></div>
+
+
+    <div class="page-header">
+        <h1> <span> WHZ-Pizza_Forever </span> </h1>
+
     </div>
-    <div th:replace="fragments/footer :: footer">&copy; 2016 The Static Templates</div>
+
+
 </div>
 
+<div  class="container"  >
+
+    <table class="table table-hover table-bordered table-fixed">
+        <thead>
+        </thead>
+        <tbody>
+        <tr  th:if="${currentUser != null}"></tr>
+        <tr>
+            <td class="col-md-4">FirstName</td>
+            <td class="col-md-4" th:text="${currentUser.firstName}">nix</td>
+        </tr>
+        <tr>
+            <td class="col-md-4">LastName</td>
+            <td class="col-md-4" th:text="${currentUser.lastName}">nix</td>
+        </tr>
+        <tr>
+            <td class="col-md-4">LoginName</td>
+            <td class="col-md-4" th:text="${currentUser.loginName}">nix</td>
+        </tr>
+        <tr>
+            <td class="col-md-4">PasswordHash</td>
+            <td class="col-md-4" th:text="${currentUser.passwordHash}">nix</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form th:action="@{/start_edit_customer_data}" method="post">
+        <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+        <button>Edit Customer</button>
+    </form>
+
+</div>
+
+
+<hr />
+<div class="container">
+
+    <h2>Address</h2>
+
+    <table class="table table-hover table-bordered table-fixed">
+        <thead>
+        <tr>
+            <th class="col-md-3">Addresse </th>
+            <th class="col-md-3"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="address : ${currentUserAddress}">
+            <td th:text="${address.street}+', '+${address.houseNumber}+', '+${address.zipcode}+', '+${address.town}">nix</td>
+            <td><button>Edit Address</button></td>
+        </tr>
+        </tbody></table> <td><button>Add New Address</button></td>
+</div>
 </body>
 </html>

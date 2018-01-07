@@ -20,9 +20,54 @@ min.css"/>
     <title>Edit Customer Data</title>
 
 </head>
-<body>
+<body style="background-color:powderblue;">
 
-<div>
+    <div>
+
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">WHZ-Pizza_Forever</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li ><a href="#">Home</a></li>
+                    <li ><a href="#">Offers</a></li>
+                    <li class="active"><a href="#">My Account</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+
+
+            </div>
+        </nav>
+
+    </div>
+
+<div class="container">
+
+
+    <div><ul class="nav navbar-nav navbar-right">
+
+
+        <li><a>
+            <h3>
+                     <span th:if="${currentUser != null}"
+                           th:text="' loged in as ' + ':' + ${currentUser.loginName}">FROMTO_PLACEHOLDER</span>
+            </h3>
+        </a></li>
+
+    </ul></div>
+
+
+    <div class="page-header">
+        <h1> <span> WHZ-Pizza_Forever </span> </h1>
+
+    </div>
+
+
+
     <div class="page-header"><h1>Edit Customer Data</h1></div>
 
     <form th:action="@{/finishEditCustomerData}"
@@ -36,14 +81,14 @@ min.css"/>
                     <td class="col-md-4">FirstName</td>
                     <td class="col-md-4" >
                         <input class="form-control" type="text" name="firstName"
-                               maxlength="255" th:value="${customer.firstName}"/>
+                               maxlength="255" th:value="${currentUser.firstName}"/>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">LastName</td>
                     <td class="col-md-4" >
                         <input class="form-control" type="text" name="lastName"
-                               maxlength="255" th:value="${customer.lastName}"/>
+                               maxlength="255" th:value="${currentUser.lastName}"/>
                     </td>
 
                 </tr>
@@ -51,14 +96,14 @@ min.css"/>
                     <td class="col-md-4">PasswordHash</td>
                     <td class="col-md-4">
                         <input class="form-control" type="text" name="passwordHash"
-                               maxlength="255" th:value="${customer.passwordHash}"/>
+                               maxlength="255" th:value="${currentUser.passwordHash}"/>
                     </td>
 
                 </tr>
                 </tbody>
             </table>
             <br/>
-            <input type="hidden" name="loginName" th:value="${customer.loginName}"/>
+            <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
             <input type="submit" class="btn btn-primary btn-sm" value="Save Customer"/>
         </div>
     </form>

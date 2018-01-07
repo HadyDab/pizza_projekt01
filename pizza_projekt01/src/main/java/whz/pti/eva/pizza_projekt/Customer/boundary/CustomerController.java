@@ -24,20 +24,20 @@ public class CustomerController {
     }
 
 
-    @RequestMapping("user_details")
+    @RequestMapping("/user_details")
     public String showUserDetails(Model model){
-    Customer customer = customerService.getCustomerByLoginName("smithD");
-    List<Address> customerAddress = customerService.getAdressesForCustomer(customer.getLoginName());
-        model.addAttribute(customer);
-        model.addAttribute("customerAddress",customerAddress);
+    Customer currentUser = customerService.getCustomerByLoginName("smithD");
+    List<Address> currentUserAddress = customerService.getAdressesForCustomer(currentUser.getLoginName());
+        model.addAttribute("currentUser",currentUser);
+        model.addAttribute("currentUserAddress",currentUserAddress);
         //System.out.println(customerAddress.get(0).getStreet());
         return "user_details";
     }
 
     @RequestMapping(value = "/start_edit_customer_data", method = RequestMethod.POST)
     public String startEditCustomerData(Model model, @RequestParam String loginName){
-        Customer currentCustomer = customerService.getCustomerByLoginName(loginName);
-        model.addAttribute(currentCustomer);
+        Customer currentUser = customerService.getCustomerByLoginName(loginName);
+        model.addAttribute("currentUser",currentUser);
         return "edit_customer_data";
     }
 
@@ -48,9 +48,9 @@ public class CustomerController {
         customerService.editCustomer(firstName,lastName,loginName,passwordHash);
 
 
-        Customer customer = customerService.getCustomerByLoginName(loginName);
-        List<Address> customerAddress = customerService.getAdressesForCustomer(customer.getLoginName());
-        model.addAttribute(customer);
+        Customer currentUser = customerService.getCustomerByLoginName(loginName);
+        List<Address> customerAddress = customerService.getAdressesForCustomer(currentUser.getLoginName());
+        model.addAttribute("currentUser",currentUser);
         model.addAttribute("customerAddress",customerAddress);
         return "user_details";
     }
@@ -59,7 +59,8 @@ public class CustomerController {
     @RequestMapping(value = "start_edit_this_address", method = RequestMethod.POST)
     public String addnewAddress(Model model, @RequestParam String street, @RequestParam String houseNumber,@RequestParam
                                 String town, @RequestParam String zipcode,@RequestParam String loginName){
-        Customer customer = customerService.getCustomerByLoginName(loginName);
+        Customer currentUser = customerService.getCustomerByLoginName(loginName);
+        model.addAttribute("currentUser",currentUser);
         Address newAddress = new Address(street,houseNumber,town,zipcode);
         model.addAttribute("address",newAddress);
 
