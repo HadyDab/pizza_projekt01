@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import whz.pti.eva.pizza_projekt.Customer.domain.Address;
 import whz.pti.eva.pizza_projekt.Customer.domain.Customer;
 import whz.pti.eva.pizza_projekt.Customer.service.CustomerService;
+import whz.pti.eva.pizza_projekt.security.domain.CurrentUser;
 
 import java.util.List;
 
@@ -24,48 +25,24 @@ public class CustomerController {
     }
 
 
-    @RequestMapping("/user_details")
+    @RequestMapping(value = "/first")
     public String showUserDetails(Model model){
-    Customer currentUser = customerService.getCustomerByLoginName("smithD");
-    List<Address> currentUserAddress = customerService.getAdressesForCustomer(currentUser.getLoginName());
-        model.addAttribute("currentUser",currentUser);
+        String customer = getCurrentUser(model);
+         List<Address> currentUserAddress = customerService.getAdressesForCustomer(customer);
         model.addAttribute("currentUserAddress",currentUserAddress);
-        //System.out.println(customerAddress.get(0).getStreet());
         return "user_details";
     }
-
-    @RequestMapping(value = "/start_edit_customer_data", method = RequestMethod.POST)
-    public String startEditCustomerData(Model model, @RequestParam String loginName){
-        Customer currentUser = customerService.getCustomerByLoginName(loginName);
-        model.addAttribute("currentUser",currentUser);
-        return "edit_customer_data";
-    }
-
 
     @RequestMapping(value = "finishEditCustomerData", method = RequestMethod.POST)
     public String finishEditCustomerData(Model model,@RequestParam String firstName, @RequestParam String lastName,
                                          @RequestParam String loginName, @RequestParam String passwordHash){
+
         customerService.editCustomer(firstName,lastName,loginName,passwordHash);
-
-
         Customer currentUser = customerService.getCustomerByLoginName(loginName);
         List<Address> customerAddress = customerService.getAdressesForCustomer(currentUser.getLoginName());
         model.addAttribute("currentUser",currentUser);
         model.addAttribute("customerAddress",customerAddress);
         return "user_details";
-    }
-
-
-    @RequestMapping(value = "start_edit_this_address", method = RequestMethod.POST)
-    public String addnewAddress(Model model, @RequestParam String street, @RequestParam String houseNumber,@RequestParam
-                                String town, @RequestParam String zipcode,@RequestParam String loginName){
-        Customer currentUser = customerService.getCustomerByLoginName(loginName);
-        model.addAttribute("currentUser",currentUser);
-        Address newAddress = new Address(street,houseNumber,town,zipcode);
-        model.addAttribute("address",newAddress);
-
-
-        return"edit_address_data";
     }
 
 
@@ -83,4 +60,15 @@ public class CustomerController {
 
         return"user_details";
     }
+
+
+    private String getCurrentUser(Model model) {
+        CurrentUser currentUser = (CurrentUser) model.asMap().get("currentUser");
+        String currentUserLoginName = currentUser.getLoginName();
+        model.addAttribute("currentUserLoginName", currentUserLoginName);
+        return currentUserLoginName;
+    }
+
+
+
 }

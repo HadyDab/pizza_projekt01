@@ -16,34 +16,70 @@ min.css"/>
 <body style="background-color:powderblue;">
 
     <div>
-
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">WHZ-Pizza_Forever</a>
                 </div>
-                <ul class="nav navbar-nav">
-                    <li ><a href="#">Home</a></li>
-                    <li ><a href="#">Offers</a></li>
-                    <li class="active"><a href="#">Shopping Cart</a></li>
-                    <li><a href="#">My Account</a></li>
+                <ul  class="nav navbar-nav">
+
+                    <li th:if="${currentUser != null}">
+                        <a><form th:action="@{/allpizza}" method="get">
+                            <div class="form-group">
+                                <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+                                <input type="submit" class="btn btn-primary btn-warning"
+                                       value="Offers"/>
+                            </div>
+                        </form>
+                        </a></li>
+
+                    <li th:if="${currentUser != null}">
+                        <a><form th:action="@{/showCart}" method="get">
+                            <div class="form-group">
+                                <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+                                <input type="submit" class="btn btn-primary btn-warning"
+                                       value="ShoppingCart"/>
+                            </div>
+                        </form>
+                        </a></li>
+
+                    <li><a>
+                        <form th:action="@{'/users/' + ${currentUser.id}}" method="post">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary btn-warning" value="Account Details"/>
+                                <!--onclick="myStopFunction()"-->
+                            </div>
+                        </form>
+                    </a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a>
+                        <form th:if="${currentUser == null}" action="/Signup" method="post">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Signup"/>
+                                <!--onclick="myStopFunction()"-->
+                            </div>
+                        </form>
+                    </a></li>
+                    <li><a>
+                        <form th:if="${currentUser != null}" action="/logout" method="post">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="logout"/>
+                                <!--onclick="myStopFunction()"-->
+                            </div>
+                        </form>
+                    </a></li>
                 </ul>
-
 
             </div>
         </nav>
-
 
     </div>
 
  <div class="container">
 
      <div><ul class="nav navbar-nav navbar-right">
-
 
          <li><a>
              <h3>
@@ -111,7 +147,7 @@ min.css"/>
          </p>
 
             <p>
-         <form th:action="@{/Offers}" method="post">
+         <form th:action="@{/allpizza}" method="get">
          <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
              <input type="submit" class="btn btn-primary btn-sm" value="Continue Shopping "/>
          </form>

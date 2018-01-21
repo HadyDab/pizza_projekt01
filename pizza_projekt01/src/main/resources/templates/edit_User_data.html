@@ -22,28 +22,46 @@ min.css"/>
 </head>
 <body style="background-color:powderblue;">
 
-    <div>
-
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">WHZ-Pizza_Forever</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li ><a href="#">Home</a></li>
-                    <li ><a href="#">Offers</a></li>
-                    <li class="active"><a href="#">My Account</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
-
-
+<div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">WHZ-Pizza_Forever</a>
             </div>
-        </nav>
+            <ul  class="nav navbar-nav">
+                <li><a>
+                    <form th:action="@{'/users/' + ${currentUser.id}}" method="post">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-warning" value="Account Details"/>
+                            <!--onclick="myStopFunction()"-->
+                        </div>
+                    </form>
+                </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>
+                    <form th:if="${currentUser == null}" action="/Signup" method="post">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-success" value="Signup"/>
+                            <!--onclick="myStopFunction()"-->
+                        </div>
+                    </form>
+                </a></li>
+                <li><a>
+                    <form th:if="${currentUser != null}" action="/logout" method="post">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-success" value="logout"/>
+                            <!--onclick="myStopFunction()"-->
+                        </div>
+                    </form>
+                </a></li>
+            </ul>
 
-    </div>
+        </div>
+    </nav>
+
+</div>
 
 <div class="container">
 
@@ -68,9 +86,9 @@ min.css"/>
 
 
 
-    <div class="page-header"><h1>Edit Customer Data</h1></div>
+    <div class="page-header"><h1>Edit User Data</h1></div>
 
-    <form th:action="@{/finishEditCustomerData}"
+    <form th:action="@{/finishEditUserData}"
           method="post">
         <div class="form-group">
             <table class="table table-hover table-bordered table-fixed">
@@ -104,7 +122,7 @@ min.css"/>
             </table>
             <br/>
             <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
-            <input type="submit" class="btn btn-primary btn-sm" value="Save Customer"/>
+            <input type="submit" class="btn btn-primary btn-sm" value="Save User"/>
         </div>
     </form>
 </div>

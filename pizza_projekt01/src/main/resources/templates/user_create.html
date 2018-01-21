@@ -1,0 +1,164 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>PizzaProjekt</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mystyle.css" th:href="@{../css/mystyle.css}" media="screen"/>
+</head>
+
+<body style="background-color:powderblue;">
+
+<div>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">WHZ-Pizza_Forever</a>
+            </div>
+            <ul  class="nav navbar-nav">
+
+                <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
+                    <a><form th:action="@{/allpizza}" method="post">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-warning"
+                                   value="Offers"/>
+                        </div>
+                    </form>
+                    </a></li>
+
+                <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
+                    <a><form th:action="@{/showCart}" method="get">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-warning"
+                                   value="ShoppingCart"/>
+                        </div>
+                    </form>
+                    </a></li>
+
+                <li><a>
+                    <form th:action="@{'/users/' + ${currentUser.id}}" method="post">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-warning" value="Account Details"/>
+                            <!--onclick="myStopFunction()"-->
+                        </div>
+                    </form>
+                </a>
+                </li>
+
+                <li th:if="${#strings.toString(currentUser.user.role) == 'ADMIN'}">
+                    <a><form th:action="@{/users/managed}" method="post">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-warning"
+                                   value="Manage Users"/>
+                        </div>
+                    </form>
+                    </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>
+                    <form th:if="${currentUser == null}" action="/Signup" method="post">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-success" value="Signup"/>
+                            <!--onclick="myStopFunction()"-->
+                        </div>
+                    </form>
+                </a></li>
+                <li><a>
+                    <form th:if="${currentUser != null}" action="/logout" method="post">
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-success" value="logout"/>
+                            <!--onclick="myStopFunction()"-->
+                        </div>
+                    </form>
+                </a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+</div>
+
+
+
+
+<div class="container">
+    <div class="page-header">
+        <h1>WHZ-Pizza_Forever</h1>
+    </div>
+
+    <h3>Add new User</h3>
+    <form class="bs-example bs-example-form error" th:action="@{/users/create}" th:object="${myform}" method="post" role="form">
+        <div class="input-group">
+            <input type="text" name="firstName" class="form-control" placeholder="firstName" required="required"
+                   autofocus="autofocus"
+            />
+        </div>
+
+        <div class="input-group">
+            <input type="text" name="lastName" class="form-control" placeholder="lastName" required="required"
+                   autofocus="autofocus"
+            />
+        </div>
+
+        <div class="input-group">
+            <input type="text" name="loginName" class="form-control" placeholder="loginName"
+                   required="required"
+            />
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" class="form-control" placeholder="passwort" required="required"/>
+        </div>
+        <div class="input-group">
+            <input type="password" name="passwordRepeated" class="form-control"
+                   placeholder="passwort wiederholen"
+                   required="required"/>
+        </div>
+        <br/>
+        <div class="form-group error">
+            <input type="submit" class="btn btn-primary btn-sm" th:value="Save"/>
+            <a ><span class="error text-danger" th:if="${error}" th:text="${error}">The loginname or password you have entered is invalid, try again.</span></a>
+        </div>
+    </form>
+
+    <br/>
+    <hr/>
+
+    <h3>List all Customer</h3>
+
+    <table class="table table-hover table-bordered table-fixed">
+        <thead>
+        <tr>
+            <th class="col-md-4">loginName</th>
+            <th class="col-md-4">firstname</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td> <a th:href="${'/users/' + user.id}" th:text="${user.loginName}">nix</a></td>
+            <td th:text="${user.firstName}">nix</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <form th:action="@{/first}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="form-group">
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-danger" value="Done"/>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div class="container">
+    <div>&copy; PizzaApp CoKG, Copyright (c) : 2017
+    </div>
+</div>
+</body>
+</html>

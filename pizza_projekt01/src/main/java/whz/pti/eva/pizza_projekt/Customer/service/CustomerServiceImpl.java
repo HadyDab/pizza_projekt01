@@ -7,6 +7,8 @@ import whz.pti.eva.pizza_projekt.Customer.domain.Address;
 import whz.pti.eva.pizza_projekt.Customer.domain.AddressRepository;
 import whz.pti.eva.pizza_projekt.Customer.domain.Customer;
 import whz.pti.eva.pizza_projekt.Customer.domain.CustomerRepository;
+import whz.pti.eva.pizza_projekt.security.domain.User;
+import whz.pti.eva.pizza_projekt.security.domain.UserCreateForm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,16 +40,15 @@ public class CustomerServiceImpl implements CustomerService {
         return customers;
     }
 
-    /**
-     * @param firstName
-     * @param lastName
-     * @param loginName
-     * @param passwordHash
-     */
     @Override
-    public void addCustomer(String firstName, String lastName, String loginName, String passwordHash) {
-        Customer customer = new Customer(firstName, lastName, loginName, passwordHash);
+    public void createCustomer(User user) {
+        Customer customer = new Customer();
+        customer.setId(user.getId());
+        customer.setFirstName(user.getFirstName());
+        customer.setLastName(user.getLastName());
+        customer.setLoginName(user.getLoginName());
         customerRepository.save(customer);
+
     }
 
     /**
@@ -97,7 +98,6 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findByLoginName(loginName);
          customer.setFirstName(firstName);
          customer.setLastName(lastName);
-         customer.setPasswordHash(passwordHash);
          customerRepository.save(customer);
     }
 

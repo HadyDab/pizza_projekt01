@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <title>PizzaProjekt</title>
+    <title>WHZ-Pizza_Forever</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
 "/>
@@ -14,8 +14,8 @@ min.css"/>
           th:href="@{css/mystyle.css}" media="screen"/>
 </head>
 <body style="background-color:powderblue;">
-
 <div>
+
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -80,12 +80,10 @@ min.css"/>
     <div class="container">
 
         <div><ul class="nav navbar-nav navbar-right">
-
-
             <li><a>
                 <h3>
                      <span th:if="${currentUser != null}"
-                           th:text="' loged in as ' +  ${currentUser.loginName}">FROMTO_PLACEHOLDER</span>
+                      th:text="' loged in as ' +  ${currentUser.loginName}">FROMTO_PLACEHOLDER</span>
                 </h3>
             </a></li>
 
@@ -97,30 +95,58 @@ min.css"/>
 
         </div>
 
-        <div class="nav navbar-nav navbar-center">
-            <p>
-            <h1> <span> Thank You for Your Order </span></h1>
+        <h3> <span> All Pizza Offers </span></h3>
+        <table border="2">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
 
-            </p>
+            </tr>
+            <tr th:each="pizza : ${listOfPizzas}">
+                <td th:text="${pizza.name}"></td>
+                <td th:text="${pizza.description}"></td>
+                <td th:text="${pizza.price +'€'}"></td>
+                <td>
+                    <form th:action="@{/addtocart}" method="post">
+                        <input type="hidden" name="id" th:value="${pizza.id}"/>
+                        <input type="text" name="quantity"
+                               maxlength="255" />
+                        <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+                        <button>Add to cart</button>
+                    </form>
 
+                </td>
 
+            </tr>
+
+        </table>
+
+        <p>
             <div>
-                <form th:action="@{/allpizza}" method="get">
-                    <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
-                    <input type="submit" class="btn btn-primary btn-sm" value="Go back to offers"/>
-                </form>
-            </div>
+        <label th:if="${error}"> Wrong Quantity  </label>
+    </div>
+
+        </p>
+
+        <span th:if="${added != null}"
+              th:text="${added} + 'has been added to the shoppingcart' ">FROMTO_PLACEHOLDER</span>
+        <p>
+
+        <div border="3">
+            <form th:action="@{/showCart}" method="get">
+                <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+                <div>
+                    <input type="submit" class="btn btn-primary btn-sm" value="Go to ShoppingCart"/>
+                </div>
+            </form>
 
         </div>
 
-
-
-
+        </p>
 
     </div>
-
-
-
 
 
 </body>

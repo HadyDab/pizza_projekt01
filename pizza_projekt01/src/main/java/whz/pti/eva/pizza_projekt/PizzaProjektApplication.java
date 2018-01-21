@@ -15,17 +15,17 @@ public class PizzaProjektApplication {
 
 
 
-    @Autowired
-    CustomerService customerService;
-
-    @Autowired
-    ShoppingCartService shoppingCartService;
-
-    @Autowired
-    ItemService itemService;
-
-    @Autowired
-    PizzaService pizzaService;
+//    @Autowired
+//    CustomerService customerService;
+//
+//    @Autowired
+//    ShoppingCartService shoppingCartService;
+//
+//    @Autowired
+//    ItemService itemService;
+//
+//    @Autowired
+//    PizzaService pizzaService;
 
     public static void main(String[] args) {
         SpringApplication.run(PizzaProjektApplication.class, args);
@@ -36,15 +36,15 @@ public class PizzaProjektApplication {
     CommandLineRunner init() {
         return (evt) -> {
 
-            customerService.addCustomer("Adam", "Smith", "smithD", "123abc");
-
-            customerService.addCustomerAdress("smithD", "Oxfordstreet", "5", "London", "DT345W");
-            customerService.addCustomerAdress("smithD","Queen Hellen ave","246","London","W569D8");
-
-            pizzaService.createPizza("Pizza Magarita","Pizza with double Cheese",2.00);
-            pizzaService.createPizza("Pizza Tonno","Thunfish with Onions and Mushroom",3.00);
-
-            shoppingCartService.createShoppingcart("smithD");
+//            customerService.createCustomerType1("Adam", "Smith", "smithD", "123abc");
+//
+//            customerService.addCustomerAdress("smithD", "Oxfordstreet", "5", "London", "DT345W");
+//            customerService.addCustomerAdress("smithD","Queen Hellen ave","246","London","W569D8");
+//
+//            pizzaService.createPizza("Pizza Magarita","Pizza with double Cheese",2.00);
+//            pizzaService.createPizza("Pizza Tonno","Thunfish with Onions and Mushroom",3.00);
+//
+//            shoppingCartService.createShoppingcart("smithD");
 
            // itemService.createItem("PizzaMagarita",2.50);
             //itemService.createItem("Pizzathurnfish",3.50);

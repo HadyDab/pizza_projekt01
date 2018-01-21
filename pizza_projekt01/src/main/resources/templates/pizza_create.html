@@ -1,0 +1,118 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>PizzaProjekt</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mystyle.css" th:href="@{../css/mystyle.css}" media="screen"/>
+</head>
+<body style="background-color:powderblue;">
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">WHZ-Pizza_Forever</a>
+        </div>
+        <ul  class="nav navbar-nav">
+
+            <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
+                <a><form th:action="@{/allpizza}" method="post">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary btn-warning"
+                               value="Offers"/>
+                    </div>
+                </form>
+                </a></li>
+
+            <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
+                <a><form th:action="@{/showCart}" method="get">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary btn-warning"
+                               value="ShoppingCart"/>
+                    </div>
+                </form>
+                </a></li>
+
+            <li><a>
+                <form th:action="@{'/users/' + ${currentUser.id}}" method="post">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary btn-warning" value="Account Details"/>
+                        <!--onclick="myStopFunction()"-->
+                    </div>
+                </form>
+            </a>
+            </li>
+
+            <li th:if="${#strings.toString(currentUser.user.role) == 'ADMIN'}">
+                <a><form th:action="@{/users/managed}" method="post">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary btn-warning"
+                               value="Manage Users"/>
+                    </div>
+                </form>
+                </a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a>
+                <form th:if="${currentUser == null}" action="/Signup" method="post">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" value="Signup"/>
+                        <!--onclick="myStopFunction()"-->
+                    </div>
+                </form>
+            </a></li>
+            <li><a>
+                <form th:if="${currentUser != null}" action="/logout" method="post">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success" value="logout"/>
+                        <!--onclick="myStopFunction()"-->
+                    </div>
+                </form>
+            </a></li>
+        </ul>
+
+    </div>
+</nav>
+</div>
+
+<div class="container">
+    <div class="page-header">
+        <h1>WHZ-Pizza_Forever</h1>
+    </div>
+
+    <h3>Add new User</h3>
+    <form class="bs-example bs-example-form error" th:action="@{/pizza/create}" th:object="${myform}" method="post" role="form">
+        <div class="input-group">
+            <input type="text" name="name" class="form-control" placeholder="name" required="required"
+                   autofocus="autofocus"
+            />
+        </div>
+
+        <div class="input-group">
+            <input type="text" name="description" class="form-control" placeholder="description" required="required"
+                   autofocus="autofocus"
+            />
+        </div>
+
+        <div class="input-group">
+            <input type="text" name="price" class="form-control" placeholder="price"
+                   required="required"
+            />
+        </div>
+        <br/>
+        <div class="form-group error">
+            <input type="submit" class="btn btn-primary btn-sm" th:value="Save"/>
+            <a ><span class="error text-danger" th:if="${error}" th:text="${error}">The loginname or password you have entered is invalid, try again.</span></a>
+        </div>
+    </form>
+
+    <br/>
+    <hr/>
+
+
+
+
+
+</body>
+</html>

@@ -12,7 +12,7 @@ public class ShoppingCart implements Serializable {
 
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
 
 
     private Date createdDate;
@@ -36,7 +36,7 @@ public class ShoppingCart implements Serializable {
     }
 
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -99,14 +99,22 @@ public class ShoppingCart implements Serializable {
 
         ShoppingCart that = (ShoppingCart) o;
 
-        return getId() == that.getId();
+        if (getId() != that.getId()) return false;
+        if (getCreatedDate() != null ? !getCreatedDate().equals(that.getCreatedDate()) : that.getCreatedDate() != null)
+            return false;
+        if (getItemsList() != null ? !getItemsList().equals(that.getItemsList()) : that.getItemsList() != null)
+            return false;
+        return getCustomer() != null ? getCustomer().equals(that.getCustomer()) : that.getCustomer() == null;
     }
 
     @Override
     public int hashCode() {
-        return getId();
+        int result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getCreatedDate() != null ? getCreatedDate().hashCode() : 0);
+        result = 31 * result + (getItemsList() != null ? getItemsList().hashCode() : 0);
+        result = 31 * result + (getCustomer() != null ? getCustomer().hashCode() : 0);
+        return result;
     }
-
 
     @Override
     public String toString() {

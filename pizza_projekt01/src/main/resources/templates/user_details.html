@@ -16,22 +16,70 @@ min.css"/>
 <body style="background-color:powderblue;">
 
     <div>
-
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">WHZ-Pizza_Forever</a>
                 </div>
-                <ul class="nav navbar-nav">
-                    <li ><a href="#">Home</a></li>
-                    <li ><a href="#">Offers</a></li>
-                    <li class="active"><a href="#">My Account</a></li>
+                   <ul  class="nav navbar-nav">
+
+                       <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
+                           <a><form th:action="@{/allpizza}" method="get">
+                               <div class="form-group">
+                                   <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+                                   <input type="submit" class="btn btn-primary btn-warning"
+                                          value="Offers"/>
+                               </div>
+                           </form>
+                           </a></li>
+
+                    <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
+                        <a><form th:action="@{/showCart}" method="get">
+                            <div class="form-group">
+                                <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+                                <input type="submit" class="btn btn-primary btn-warning"
+                                       value="ShoppingCart"/>
+                            </div>
+                        </form>
+                        </a></li>
+
+                    <li><a>
+                        <form th:action="@{'/users/' + ${currentUser.id}}" method="post">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary btn-warning" value="Account Details"/>
+                                <!--onclick="myStopFunction()"-->
+                            </div>
+                        </form>
+                    </a>
+                    </li>
+
+                    <li th:if="${#strings.toString(currentUser.user.role) == 'ADMIN'}">
+                        <a><form th:action="@{/users/managed}" method="post">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary btn-warning"
+                                       value="Manage Users"/>
+                            </div>
+                        </form>
+                        </a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a>
+                        <form th:if="${currentUser == null}" action="/Signup" method="post">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Signup"/>
+                                <!--onclick="myStopFunction()"-->
+                            </div>
+                        </form>
+                    </a></li>
+                    <li><a>
+                        <form th:if="${currentUser != null}" action="/logout" method="post">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="logout"/>
+                                <!--onclick="myStopFunction()"-->
+                            </div>
+                        </form>
+                    </a></li>
                 </ul>
-
 
             </div>
         </nav>
@@ -45,8 +93,8 @@ min.css"/>
 
                 <li><a>
                     <h3>
-                     <span th:if="${currentUser != null}"
-                           th:text="' loged in as ' + ':' + ${currentUser.loginName}">FROMTO_PLACEHOLDER</span>
+                     <span th:if="${customer != null}"
+                           th:text="' loged in as ' + ':' + ${customer}">FROMTO_PLACEHOLDER</span>
                     </h3>
                 </a></li>
 
@@ -57,50 +105,37 @@ min.css"/>
                 <h1> <span> WHZ-Pizza_Forever </span> </h1>
 
             </div>
-
-
         </div>
-
- <div  class="container"  >
-
-     <table class="table table-hover table-bordered table-fixed">
-         <thead>
-         </thead>
-         <tbody>
-         <tr  th:if="${currentUser != null}"></tr>
-         <tr>
-             <td class="col-md-4">FirstName</td>
-             <td class="col-md-4" th:text="${currentUser.firstName}">nix</td>
-         </tr>
-         <tr>
-             <td class="col-md-4">LastName</td>
-             <td class="col-md-4" th:text="${currentUser.lastName}">nix</td>
-         </tr>
-         <tr>
-             <td class="col-md-4">LoginName</td>
-             <td class="col-md-4" th:text="${currentUser.loginName}">nix</td>
-         </tr>
-         <tr>
-             <td class="col-md-4">PasswordHash</td>
-             <td class="col-md-4" th:text="${currentUser.passwordHash}">nix</td>
-         </tr>
-         </tbody>
-     </table>
-
-     <form th:action="@{/start_edit_customer_data}" method="post">
-         <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
-         <button>Edit Customer</button>
-     </form>
-
- </div>
-
-
-    <hr />
     <div class="container">
+
+        <table class="table table-hover table-bordered table-fixed">
+            <thead>
+            <tr>
+                <th class="col-md-4">User Management</th>
+                <th class="col-md-4"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>firstName</td>
+                <td th:text="${currentUser.firstName}">First Name</td>
+            </tr>
+            </tbody>
+        </table>
+
+            <div>
+
+                <form th:action="@{/start_edit_User_data}" method="get">
+                    <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+                    <input type="submit" class="btn btn-success" value="Edit info"/>
+                </form>
+
+            </div>
 
         <h2>Address</h2>
 
-        <table class="table table-hover table-bordered table-fixed">
+        <table class="table table-hover table-bordered table-fixed data-link=row"
+               th:if="${currentUserAddress != null}">
             <thead>
             <tr>
                 <th class="col-md-3">Addresse </th>
@@ -110,9 +145,18 @@ min.css"/>
             <tbody>
             <tr th:each="address : ${currentUserAddress}">
                 <td th:text="${address.street}+', '+${address.houseNumber}+', '+${address.zipcode}+', '+${address.town}">nix</td>
-                <td><button>Edit Address</button></td>
             </tr>
-            </tbody></table> <td><button>Add New Address</button></td>
+            </tbody></table>
+
+            <div>
+                <form th:action="@{/create/address}" method="get">
+                    <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+                    <input type="submit" class="btn btn-success" value="Add new address"/>
+
+                </form>
+
+
+            </div>
     </div>
 </body>
 </html>
