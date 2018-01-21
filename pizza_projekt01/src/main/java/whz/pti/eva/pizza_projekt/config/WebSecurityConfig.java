@@ -35,6 +35,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/new/users/c**").permitAll()
+                .antMatchers("/pizza/c**").hasAuthority("ADMIN")
+                .antMatchers("/pizza/m**").hasAuthority("ADMIN")
                 .antMatchers("/users/m**").hasAuthority("ADMIN")
                 .antMatchers("/users/c**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()

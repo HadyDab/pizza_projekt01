@@ -1,11 +1,12 @@
 package whz.pti.eva.pizza_projekt.Customer.boundary;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import whz.pti.eva.pizza_projekt.Customer.domain.Customer;
 import whz.pti.eva.pizza_projekt.Customer.domain.Item;
 import whz.pti.eva.pizza_projekt.Customer.domain.Pizza;
@@ -15,7 +16,11 @@ import whz.pti.eva.pizza_projekt.Customer.service.ItemService;
 import whz.pti.eva.pizza_projekt.Customer.service.PizzaService;
 import whz.pti.eva.pizza_projekt.Customer.service.ShoppingCartService;
 import whz.pti.eva.pizza_projekt.security.domain.CurrentUser;
+import whz.pti.eva.pizza_projekt.security.domain.PizzaCreateForm;
+import whz.pti.eva.pizza_projekt.security.domain.UserCreateForm;
+import whz.pti.eva.pizza_projekt.security.service.validator.PizzaCreateFormValidator;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +32,21 @@ public class ShoppingControler {
     private PizzaService pizzaService;
     private CustomerService customerService;
     private ShoppingCartService shoppingCartService;
+    private PizzaCreateFormValidator pizzaCreateFormValidator;
 
     @Autowired
-    public ShoppingControler(PizzaService pizzaService,CustomerService customerService,ShoppingCartService shoppingCartService) {
+    public ShoppingControler(PizzaService pizzaService,CustomerService customerService,PizzaCreateFormValidator pizzaCreateFormValidator,ShoppingCartService shoppingCartService) {
         this.pizzaService = pizzaService;
         this.customerService =customerService;
         this.shoppingCartService = shoppingCartService;
+        this.pizzaCreateFormValidator = pizzaCreateFormValidator;
     }
 
+
+    @InitBinder("myform")
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(pizzaCreateFormValidator);
+    }
 
     @RequestMapping(value = "/allpizza")
     public String showAllPizza(Model model, @RequestParam String loginName){
@@ -154,6 +166,33 @@ public class ShoppingControler {
         model.addAttribute("currentUser",currentUser);
 
         return "odercomfirm";
+    }
+
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/pizza/managed",method = {RequestMethod.POST,RequestMethod.GET})
+    public String handlecreatePizza(Model model){
+        model.addAttribute("myform", new PizzaCreateForm() );
+        model.addAttribute("listOfPizza", pizzaService.getAllPizzas());
+        return "pizza_create";
+    }
+
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/pizza/create", method = RequestMethod.GET)
+    public String getPizzaForm(@Valid @ModelAttribute("myform") PizzaCreateForm form, BindingResult bindingResult, Model model){
+        model.addAttribute("listOfPizza", pizzaService.getAllPizzas());
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", bindingResult.getGlobalError().getDefaultMessage());
+            return "pizza_create";
+        }
+
+        try {
+            pizzaService.creatPizza(form);
+        } catch (NumberFormatException nr){
+
+        }
+        return "redirect:/pizza/managed";
     }
 
 

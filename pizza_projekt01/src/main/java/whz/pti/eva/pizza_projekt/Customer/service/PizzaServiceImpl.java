@@ -45,10 +45,12 @@ public class PizzaServiceImpl implements PizzaService{
 
     @Override
     public Pizza creatPizza(PizzaCreateForm form) throws NumberFormatException {
+        String amount = form.getPrice();
+        double price = Double.parseDouble(amount);
         Pizza pizza = new Pizza();
         pizza.setName(form.getName());
         pizza.setDescription(form.getDescription());
-        pizza.setPrice(form.getPrice());
+        pizza.setPrice(price);
         pizzaRepository.save(pizza);
         return pizza;
     }

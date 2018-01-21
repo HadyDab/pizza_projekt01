@@ -61,6 +61,15 @@ min.css"/>
                             </div>
                         </form>
                         </a></li>
+
+                       <li th:if="${#strings.toString(currentUser.user.role) == 'ADMIN'}">
+                           <a><form th:action="@{/pizza/managed}" method="post">
+                               <div class="form-group">
+                                   <input type="submit" class="btn btn-primary btn-warning"
+                                          value="Manage Pizza"/>
+                               </div>
+                           </form>
+                           </a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a>

@@ -12,5 +12,4 @@ public interface PizzaService {
     Pizza find(int id);
     boolean existsByName(String name);
     Pizza creatPizza(PizzaCreateForm form);
-
 }

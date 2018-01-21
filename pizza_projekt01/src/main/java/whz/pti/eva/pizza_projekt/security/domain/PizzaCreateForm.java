@@ -11,7 +11,7 @@ public class PizzaCreateForm {
     private String description = "";
 
     @NotEmpty
-    private double price = 0.0;
+    private String price = "";
 
 
     public String getName() {
@@ -30,11 +30,11 @@ public class PizzaCreateForm {
         this.description = description;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 }
