@@ -63,26 +63,29 @@ public class ShoppingControler {
         Pizza pizza = pizzaService.find(id);
         String succefull ="";
 
-        try {
-            quantity2 = Integer.parseInt(quantity);
-        } catch (NumberFormatException nr){
-            Customer currentUser = customerService.getCustomerByLoginName(loginName);
-            model.addAttribute("currentUser",currentUser);
-            model.addAttribute("listOfPizzas",pizzaService.getAllPizzas());
-            model.addAttribute("quantity",quantity);
-            model.addAttribute("error",nr.getMessage());
-            return "offers";
-        }
-        shoppingCartService.addItemToCart(loginName,pizza,quantity2);
         Customer currentUser = customerService.getCustomerByLoginName(loginName);
         model.addAttribute("currentUser",currentUser);
         model.addAttribute("listOfPizzas",pizzaService.getAllPizzas());
         model.addAttribute("quantity",quantity);
-        succefull = pizza.getName();
-        model.addAttribute("added",succefull);
-        //model.addAttribute("customer",customerService.getCustomerByLoginName("smithD"));
 
-        return "offers";
+        try {
+            quantity2 = Integer.parseInt(quantity);
+        } catch (NumberFormatException nr){
+            model.addAttribute("error",nr.getMessage());
+            return "offers";
+        }
+
+        if(quantity2 <= 0){
+            succefull = " Wrong Quantity! Please add a valid quantity";
+            model.addAttribute("added",succefull);
+            return "offers";
+        } else {
+            shoppingCartService.addItemToCart(loginName,pizza,quantity2);
+            succefull = pizza.getName() + " has been added to the shoppingcart sucessfully" ;
+            model.addAttribute("added",succefull);
+            return "offers";
+        }
+
     }
 
 
@@ -123,7 +126,6 @@ public class ShoppingControler {
 
 
 
-
     @RequestMapping(value = "removeItem", method = RequestMethod.POST)
     public String updateQuantity(@RequestParam int id , @RequestParam String loginName,Model model){
 
@@ -144,27 +146,10 @@ public class ShoppingControler {
     }
 
 
-//
-//    @RequestMapping(value = "/Offers",method = RequestMethod.GET)
-//    public String showOffers(@RequestParam String loginName, Model model){
-//        Customer currentUser = customerService.getCustomerByLoginName(loginName);
-//        model.addAttribute("listOfPizzas",pizzaService.getAllPizzas());
-//        model.addAttribute("currentUser",currentUser);
-//
-//        return "allpizza";
-//    }
-
-
-
-
     @RequestMapping(value = "/buynow",method = RequestMethod.POST)
     public String orderComfirm(@RequestParam String loginName, Model model){
-
         Customer currentUser = customerService.getCustomerByLoginName(loginName);
-
-
         model.addAttribute("currentUser",currentUser);
-
         return "odercomfirm";
     }
 
@@ -194,6 +179,7 @@ public class ShoppingControler {
         }
         return "redirect:/pizza/managed";
     }
+
 
 
 }

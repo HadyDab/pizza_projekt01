@@ -125,13 +125,13 @@ min.css"/>
 
         <p>
             <div>
-        <label th:if="${error}"> Wrong Quantity  </label>
+        <label th:if="${error}"> Quantity can only be a positive natural number </label>
     </div>
 
         </p>
 
-        <span th:if="${added != null}"
-              th:text="${added} + ' has been added to the shoppingcart' ">FROMTO_PLACEHOLDER</span>
+        <label th:if="${added != null}"
+              th:text="${added}">FROMTO_PLACEHOLDER</label>
         <p>
 
         <div border="3">

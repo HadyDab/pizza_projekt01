@@ -62,12 +62,39 @@ public class CustomerController {
     }
 
 
+
+    @RequestMapping(value = "/orderHistory",method = RequestMethod.GET)
+    public String viewShoppingHistory(Model model){
+
+        return "orderHistory";
+    }
+
+
+
+
+
+
+
+
+
+
+    @RequestMapping(value = "addnewAddress", method = RequestMethod.POST)
+    public String getaddaddressform(Model model){
+
+        return"addnewaddress";
+    }
+
+
     private String getCurrentUser(Model model) {
         CurrentUser currentUser = (CurrentUser) model.asMap().get("currentUser");
         String currentUserLoginName = currentUser.getLoginName();
         model.addAttribute("currentUserLoginName", currentUserLoginName);
         return currentUserLoginName;
     }
+
+
+
+
 
 
 
