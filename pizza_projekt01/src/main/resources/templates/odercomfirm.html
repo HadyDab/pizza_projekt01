@@ -52,6 +52,18 @@ min.css"/>
                     </form>
                 </a>
                 </li>
+
+
+                <li th:if="${currentUser != null}">
+                    <a><form th:action="@{/order/orderHistory}" method="get">
+                        <div class="form-group">
+                            <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+                            <input type="submit" class="btn btn-primary btn-warning"
+                                   value="Order History"/>
+                        </div>
+                    </form>
+                    </a></li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a>

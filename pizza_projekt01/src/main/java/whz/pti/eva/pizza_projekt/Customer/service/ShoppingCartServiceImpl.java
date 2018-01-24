@@ -17,13 +17,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private ItemRepository itemRepository;
     private ShoppingCartRepository shoppingCartRepository;
     private CustomerRepository customerRepository;
+    private OrderedItemsRepository orderedItemsRepository;
 
     @Autowired
-    public ShoppingCartServiceImpl(PizzaRepository pizzaRepository, ItemRepository itemRepository, ShoppingCartRepository shoppingCartRepository, CustomerRepository customerRepository) {
+    public ShoppingCartServiceImpl(PizzaRepository pizzaRepository, ItemRepository itemRepository,
+                                   ShoppingCartRepository shoppingCartRepository,
+                                   CustomerRepository customerRepository,OrderedItemsRepository orderedItemsRepository) {
         this.pizzaRepository = pizzaRepository;
         this.itemRepository = itemRepository;
         this.shoppingCartRepository = shoppingCartRepository;
         this.customerRepository = customerRepository;
+        this.orderedItemsRepository = orderedItemsRepository;
     }
 
     @Transactional
@@ -67,7 +71,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         customerRepository.save(customer);
         shoppingCartRepository.save(shoppingCart);
 
-
     }
 
     @Override
@@ -85,6 +88,32 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart cart =  shoppingCartRepository.findShoppingCartByCustomer(customer);
         cart.deleteItem(itemRepository.findOne(itemId));
         shoppingCartRepository.save(cart);
+    }
+
+    @Override
+    public ShoppingCart findShoppingcartByCustomer(String loginName) {
+        Customer customer = customerRepository.findByLoginName(loginName);
+        ShoppingCart cart = shoppingCartRepository.findShoppingCartByCustomer(customer);
+        return cart;
+    }
+
+
+    @Transactional
+    @Override
+    public void additemsfromorderHistory(String loginName, long orderhistoryid) {
+
+        Customer customer = customerRepository.findByLoginName(loginName);
+
+        OrderedItems order = orderedItemsRepository.findById(orderhistoryid);
+
+        ShoppingCart cart = shoppingCartRepository.findShoppingCartByCustomer(customer);
+
+        for(Item item:order.getItemsordered()){
+            cart.addItems(item);
+        }
+
+        shoppingCartRepository.save(cart);
+
     }
 
 

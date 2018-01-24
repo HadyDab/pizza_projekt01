@@ -1,17 +1,19 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <title>PizzaProjekt</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/mystyle.css" th:href="@{../css/mystyle.css}" media="screen"/>
+    <title>WHZ-Pizza_Forever</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+"/>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstraptheme.
+min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css"
+          th:href="@{css/mystyle.css}" media="screen"/>
 </head>
-
 <body style="background-color:powderblue;">
-
-
 <div>
 
     <nav class="navbar navbar-inverse">
@@ -21,8 +23,8 @@
             </div>
             <ul  class="nav navbar-nav">
 
-                <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
-                    <a><form th:action="@{/offers}" method="post">
+                <li th:if="${currentUser != null}">
+                    <a><form th:action="@{/allpizza}" method="get">
                         <div class="form-group">
                             <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
                             <input type="submit" class="btn btn-primary btn-warning"
@@ -31,7 +33,7 @@
                     </form>
                     </a></li>
 
-                <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
+                <li th:if="${currentUser != null}">
                     <a><form th:action="@{/showCart}" method="get">
                         <div class="form-group">
                             <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
@@ -39,8 +41,7 @@
                                    value="ShoppingCart"/>
                         </div>
                     </form>
-                    </a> </li>
-
+                    </a></li>
                 <li><a>
                     <form th:action="@{'/users/' + ${currentUser.id}}" method="post">
                         <div class="form-group">
@@ -51,7 +52,8 @@
                 </a>
                 </li>
 
-                <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
+
+                <li th:if="${currentUser != null}">
                     <a><form th:action="@{/order/orderHistory}" method="get">
                         <div class="form-group">
                             <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
@@ -61,14 +63,6 @@
                     </form>
                     </a></li>
 
-                <li th:if="${#strings.toString(currentUser.user.role) == 'ADMIN'}">
-                    <a><form th:action="@{/users/managed}" method="post">
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-primary btn-warning"
-                                   value="Manage Users"/>
-                        </div>
-                    </form>
-                    </a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a>
@@ -94,46 +88,76 @@
 
 </div>
 
-
-
 <div class="container">
+
+    <div><ul class="nav navbar-nav navbar-right">
+        <li><a>
+            <h3>
+                     <span th:if="${currentUser != null}"
+                           th:text="' loged in as ' +  ${currentUser.loginName}">FROMTO_PLACEHOLDER</span>
+            </h3>
+        </a></li>
+
+    </ul></div>
+
+
     <div class="page-header">
-        <h1>WHZ-Pizza_Forever</h1>
+        <h1> <span> WHZ-Pizza_Forever </span> </h1>
+
     </div>
-    <table class="table table-hover table-bordered table-fixed">
-        <thead>
+    <h3> <span> Item Ordered </span></h3>
+
+    <p>
+        <label th:text="${Orders.id}"> Place Holder</label>
+
+    </p>
+
+    <p>
+        <label th:text="${Orders.orderedDate}"> Place Holder </label>
+
+    </p>
+
+    <table border="2">
         <tr>
-            <th class="col-md-4"><span th:text="UserDetails"></span></th>
-            <th class="col-md-4"></th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
         </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>loginName</td>
-            <td th:text="${user.loginName}">Loginname</td>
+        <tr th:each="item : ${itemsOrdered}">
+            <td th:text="${item.pizza.name}"></td>
+            <td th:text="${item.pizza.description}"></td>
+            <td th:text="${item.pizza.price + '€'}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td>
+            </td>
+
         </tr>
-        <tr>
-            <td>firstName</td>
-            <td th:text="${user.firstName}"> FirstName</td>
-        </tr>
-        </tbody>
+
     </table>
 
 
+    <p>
 
-<form th:action="@{/first}" method="post">
-    <!--<div class="form-group">-->
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary btn-danger" value="Done"/>
-        </div>
-    <!--</div>-->
-</form>
+    <div>
+        Total Cost:
+        <span th:text="${total + '€'}"></span>
+    </div>
+
+    </p>
+
+
+    <p>
+
+    <form th:action="@{/order/reOder}" method="post">
+        <input type="hidden" name="id" th:value="${Orders.id}"/>
+        <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
+        <input type="submit" class="btn btn-primary btn-sm" value="Re Order"/>
+    </form>
+
+    </p>
 
 </div>
 
-<div class="container">
-            <div>&copy; PizzaApp CoKG, Copyright (c) : 2017
-        </div>
-</div>
 </body>
 </html>

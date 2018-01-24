@@ -16,7 +16,7 @@ public class OrderedItems implements Serializable {
 
     private Date orderedDate;
 
-    @OneToMany
+    @ManyToMany
     private List<Item> itemsordered;
 
     @ManyToOne
@@ -43,6 +43,10 @@ public class OrderedItems implements Serializable {
 
     public void setItemsordered(List<Item> itemsordered) {
         this.itemsordered = itemsordered;
+    }
+
+    public void addordereditem(Item item){
+        this.itemsordered.add(item);
     }
 
     public Customer getCustomer() {

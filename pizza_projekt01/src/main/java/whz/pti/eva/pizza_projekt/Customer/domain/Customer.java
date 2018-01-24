@@ -25,7 +25,7 @@ public class Customer implements Serializable {
     private ShoppingCart shoppingCart;
 
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
     private List<OrderedItems> orderHistorys;
 
 

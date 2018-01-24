@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import whz.pti.eva.pizza_projekt.Customer.domain.*;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,13 +36,21 @@ public class OrderedItemsServiceImpl implements OrderedItemsService{
         Customer customer = customerRepository.findByLoginName(loginName);
         ShoppingCart cart = shoppingCartRepository.findShoppingCartByCustomer(customer);
         OrderedItems order = new OrderedItems();
-        List<Item> ordereditems = cart.getItemsList();
-        order.setItemsordered(ordereditems);
+        for(Item item : cart.getItemsList()){
+            order.addordereditem(item);
+        }
+        cart.getItemsList().clear();
+        shoppingCartRepository.save(cart);
+        order.setOrderedDate(new Date());
         order.setCustomer(customer);
-        orderedItemsRepository.save(order);
         customer.addOrderedItems(order);
+        orderedItemsRepository.save(order);
         customerRepository.save(customer);
 
+    }
 
+    @Override
+    public OrderedItems findbyID(long id) {
+        return orderedItemsRepository.findById(id);
     }
 }

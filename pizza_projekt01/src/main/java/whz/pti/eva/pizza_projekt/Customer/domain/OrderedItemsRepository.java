@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface OrderedItemsRepository extends JpaRepository<OrderedItems, Integer> {
    List<OrderedItems>  findOrderedItemsByCustomer(Customer customer);
+   OrderedItems findById(long id);
 }

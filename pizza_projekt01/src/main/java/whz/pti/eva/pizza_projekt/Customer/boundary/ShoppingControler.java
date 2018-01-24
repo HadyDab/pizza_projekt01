@@ -7,14 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import whz.pti.eva.pizza_projekt.Customer.domain.Customer;
-import whz.pti.eva.pizza_projekt.Customer.domain.Item;
-import whz.pti.eva.pizza_projekt.Customer.domain.Pizza;
-import whz.pti.eva.pizza_projekt.Customer.domain.ShoppingCart;
-import whz.pti.eva.pizza_projekt.Customer.service.CustomerService;
-import whz.pti.eva.pizza_projekt.Customer.service.ItemService;
-import whz.pti.eva.pizza_projekt.Customer.service.PizzaService;
-import whz.pti.eva.pizza_projekt.Customer.service.ShoppingCartService;
+import whz.pti.eva.pizza_projekt.Customer.domain.*;
+import whz.pti.eva.pizza_projekt.Customer.service.*;
 import whz.pti.eva.pizza_projekt.security.domain.CurrentUser;
 import whz.pti.eva.pizza_projekt.security.domain.PizzaCreateForm;
 import whz.pti.eva.pizza_projekt.security.domain.UserCreateForm;
@@ -32,13 +26,16 @@ public class ShoppingControler {
     private PizzaService pizzaService;
     private CustomerService customerService;
     private ShoppingCartService shoppingCartService;
+    private OrderedItemsService orderedItemsService;
     private PizzaCreateFormValidator pizzaCreateFormValidator;
 
     @Autowired
-    public ShoppingControler(PizzaService pizzaService,CustomerService customerService,PizzaCreateFormValidator pizzaCreateFormValidator,ShoppingCartService shoppingCartService) {
+    public ShoppingControler(PizzaService pizzaService,CustomerService customerService,PizzaCreateFormValidator pizzaCreateFormValidator,
+                             ShoppingCartService shoppingCartService,OrderedItemsService orderedItemsService) {
         this.pizzaService = pizzaService;
         this.customerService =customerService;
         this.shoppingCartService = shoppingCartService;
+        this.orderedItemsService = orderedItemsService;
         this.pizzaCreateFormValidator = pizzaCreateFormValidator;
     }
 
@@ -146,9 +143,15 @@ public class ShoppingControler {
     }
 
 
-    @RequestMapping(value = "/buynow",method = RequestMethod.POST)
-    public String orderComfirm(@RequestParam String loginName, Model model){
+    @RequestMapping(value = "/buynow",method = {RequestMethod.POST,RequestMethod.GET})
+    public String orderComfirm(@RequestParam String loginName,@RequestParam double total,Model model){
         Customer currentUser = customerService.getCustomerByLoginName(loginName);
+        ShoppingCart cart = shoppingCartService.findShoppingcartByCustomer(loginName);
+        if(cart.getItemsList().isEmpty()){
+            model.addAttribute("total",total);
+            return "cart";
+        }
+        orderedItemsService.saveOrder(loginName);
         model.addAttribute("currentUser",currentUser);
         return "odercomfirm";
     }
@@ -179,6 +182,26 @@ public class ShoppingControler {
         }
         return "redirect:/pizza/managed";
     }
+
+
+
+    @RequestMapping(value = "/order/reOder",method = RequestMethod.POST)
+    public String reOrder(Model model , @RequestParam String loginName,
+                          @RequestParam("id") long id){
+        Customer currentUser = customerService.getCustomerByLoginName(loginName);
+        shoppingCartService.additemsfromorderHistory(loginName,id);
+
+        List<Item> itemsInCart = shoppingCartService.getItemsinShoppingCart(loginName);
+        double total = 0.0;
+        for(Item i :itemsInCart){
+            total += i.getPizza().getPrice() * i.getQuantity();
+        }
+        model.addAttribute("currentUser",currentUser);
+        model.addAttribute("itemsincart",itemsInCart);
+        model.addAttribute("total",total);
+        return "cart";
+    }
+
 
 
 

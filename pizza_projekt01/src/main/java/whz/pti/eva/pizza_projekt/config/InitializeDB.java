@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import whz.pti.eva.pizza_projekt.Customer.domain.Customer;
 import whz.pti.eva.pizza_projekt.Customer.domain.CustomerRepository;
+import whz.pti.eva.pizza_projekt.Customer.domain.ShoppingCartRepository;
 import whz.pti.eva.pizza_projekt.Customer.service.CustomerService;
 import whz.pti.eva.pizza_projekt.Customer.service.ItemService;
 import whz.pti.eva.pizza_projekt.Customer.service.PizzaService;

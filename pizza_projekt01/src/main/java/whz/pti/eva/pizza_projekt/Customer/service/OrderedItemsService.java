@@ -7,8 +7,7 @@ import java.util.List;
 
 public interface OrderedItemsService {
 
-
     List<OrderedItems> findOrdersFromCustomer(String loginName);
     void saveOrder(String loginName);
-
+    OrderedItems findbyID(long id);
 }

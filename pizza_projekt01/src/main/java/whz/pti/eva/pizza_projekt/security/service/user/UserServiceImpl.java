@@ -8,7 +8,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import whz.pti.eva.pizza_projekt.Customer.domain.Customer;
 import whz.pti.eva.pizza_projekt.Customer.domain.CustomerRepository;
+import whz.pti.eva.pizza_projekt.Customer.domain.ShoppingCart;
+import whz.pti.eva.pizza_projekt.Customer.domain.ShoppingCartRepository;
 import whz.pti.eva.pizza_projekt.Customer.service.CustomerService;
+import whz.pti.eva.pizza_projekt.Customer.service.ShoppingCartService;
 import whz.pti.eva.pizza_projekt.security.domain.Role;
 import whz.pti.eva.pizza_projekt.security.domain.User;
 import whz.pti.eva.pizza_projekt.security.domain.UserCreateForm;
@@ -16,6 +19,7 @@ import whz.pti.eva.pizza_projekt.security.domain.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,11 +27,14 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
+    private final ShoppingCartService shoppingCartService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,CustomerRepository customerRepository) {
+    public UserServiceImpl(UserRepository userRepository,CustomerRepository customerRepository,
+                           ShoppingCartService shoppingCartService) {
         this.customerRepository = customerRepository;
         this.userRepository = userRepository;
+        this.shoppingCartService = shoppingCartService;
     }
 
     @Override
@@ -68,14 +75,14 @@ public class UserServiceImpl implements UserService {
         user.setPasswordHash(new BCryptPasswordEncoder().encode(form.getPassword()));
         user.setRole(form.getRole());
         userRepository.save(user);
-       Customer customer = new Customer();
-       customer.setId(user.getId());
-       customer.setFirstName(user.getFirstName());
-       customer.setLastName(user.getLastName());
-       customer.setLoginName(user.getLoginName());
-        customerRepository.save(customer);
+         Customer customer = new Customer();
+         customer.setId(user.getId());
+         customer.setFirstName(user.getFirstName());
+         customer.setLastName(user.getLastName());
+         customer.setLoginName(user.getLoginName());
+         customerRepository.save(customer);
+        shoppingCartService.createShoppingcart(customer.getLoginName());
         return user;
-
     }
 
     @Transactional
