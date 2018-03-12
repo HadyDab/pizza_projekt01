@@ -12,11 +12,16 @@ import java.util.List;
 @Service
 public class OrderedItemsServiceImpl implements OrderedItemsService{
 
-    OrderedItemsRepository orderedItemsRepository;
-    CustomerRepository customerRepository;
-    ShoppingCartRepository shoppingCartRepository;
+    private  OrderedItemsRepository orderedItemsRepository;
+    private CustomerRepository customerRepository;
+    private ShoppingCartRepository shoppingCartRepository;
 
-
+    /**
+     *  A simple Construction Injection of Control
+     * @param orderedItemsRepository
+     * @param customerRepository
+     * @param shoppingCartRepository
+     */
     @Autowired
     public OrderedItemsServiceImpl(OrderedItemsRepository orderedItemsRepository, CustomerRepository customerRepository, ShoppingCartRepository shoppingCartRepository) {
         this.orderedItemsRepository = orderedItemsRepository;
@@ -24,12 +29,23 @@ public class OrderedItemsServiceImpl implements OrderedItemsService{
         this.shoppingCartRepository = shoppingCartRepository;
     }
 
+
+    /**
+     * Find all the order placed by this customer
+     * @param loginName the login name of the customer
+     * @return the list of all the order placed by the given customer
+     */
     @Override
     public List<OrderedItems> findOrdersFromCustomer(String loginName) {
         Customer customer = customerRepository.findByLoginName(loginName);
         return orderedItemsRepository.findOrderedItemsByCustomer(customer);
     }
 
+
+    /**
+     * Save an order placed by a customer
+     * @param loginName the login name of the customer
+     */
     @Transactional
     @Override
     public void saveOrder(String loginName) {
@@ -49,6 +65,12 @@ public class OrderedItemsServiceImpl implements OrderedItemsService{
 
     }
 
+
+    /**
+     *  Find a particular order base on their id
+     * @param id of the order to be found
+     * @return order object
+     */
     @Override
     public OrderedItems findbyID(long id) {
         return orderedItemsRepository.findById(id);

@@ -9,17 +9,19 @@ import java.util.List;
 
 public interface CustomerService {
 
-    List<Customer> getAllCustomers();
+    List<Customer> getAllCustomers();  // return the List of all customers
 
-    void createCustomer(User user);
+    void createCustomer(User user);  // create a Customer
 
-    Customer getCustomerByLoginName(String loginName);
+    void saveCustomer(Customer customer); // save already created customer
+
+    Customer getCustomerByLoginName(String loginName); // return the customer object with the given name
 
     void addCustomerAdress(String loginName, String street, String
-            housenumber, String town, String zipcode);
+            housenumber, String town, String zipcode);    // add customer address
 
-    List<Address> getAdressesForCustomer(String loginName);
+    List<Address> getAdressesForCustomer(String loginName); // return all the addresses associated with the given customer
 
-    void editCustomer(String firstName, String lastName, String loginName, String passwordHash);
+    void editCustomer(String firstName, String lastName, String loginName, String passwordHash); // edit customer informations
 
 }

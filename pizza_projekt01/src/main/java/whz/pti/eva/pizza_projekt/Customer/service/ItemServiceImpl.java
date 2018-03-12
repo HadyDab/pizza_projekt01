@@ -15,19 +15,31 @@ public class ItemServiceImpl implements ItemService{
     private ItemRepository itemRepository;
     private PizzaRepository pizzaRepository;
 
-
+    /**
+     *  A simple Construction Injection of Control
+     * @param itemRepository
+     * @param pizzaRepository
+     */
     @Autowired
     public ItemServiceImpl(ItemRepository itemRepository,PizzaRepository pizzaRepository) {
         this.itemRepository = itemRepository;
         this.pizzaRepository = pizzaRepository;
     }
 
-
+    /**
+     * Get all the items listed
+     * @return the list of all the items
+     */
     @Override
     public List<Item> getAllItems() {
         return itemRepository.findAll();
     }
 
+    /**
+     * Find an item with the given id
+     * @param id of the item to be found
+     * @return item object with the given id
+     */
     @Override
     public Item findItem(int id) {
         return itemRepository.findOne(id);

@@ -73,7 +73,7 @@ min.css"/>
 
 
                        <li th:if="${#strings.toString(currentUser.user.role) == 'CUSTOMER'}">
-                           <a><form th:action="@{/order/orderHistory}" method="post">
+                           <a><form th:action="@{/order/orderHistory}" method="get">
                                <div class="form-group">
                                    <input type="hidden" name="loginName" th:value="${currentUser.loginName}"/>
                                    <input type="submit" class="btn btn-primary btn-warning"

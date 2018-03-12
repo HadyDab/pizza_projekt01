@@ -19,6 +19,8 @@ public interface UserService {
 
     Collection<User> getAllUsers();
 
+    void saveUser(User user);
+
     User create(UserCreateForm form);
 
     void editUser(String firstName, String lastName, String loginName, String passwordHash);

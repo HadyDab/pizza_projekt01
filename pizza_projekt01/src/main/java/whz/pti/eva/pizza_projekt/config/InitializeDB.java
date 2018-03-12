@@ -14,6 +14,7 @@ import whz.pti.eva.pizza_projekt.Customer.service.ShoppingCartService;
 import whz.pti.eva.pizza_projekt.security.domain.Role;
 import whz.pti.eva.pizza_projekt.security.domain.User;
 import whz.pti.eva.pizza_projekt.security.domain.UserRepository;
+import whz.pti.eva.pizza_projekt.security.service.user.UserService;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalTime;
@@ -29,25 +30,28 @@ public class InitializeDB {
     private static final Logger LOGGER = LoggerFactory.getLogger(InitializeDB.class);
 
 
-    @Autowired
-    CustomerService customerService;
 
-    @Autowired
-    ShoppingCartService shoppingCartService;
+   private  CustomerService customerService;
+   private ShoppingCartService shoppingCartService;
+   private  PizzaService pizzaService;
+   private UserService userService;
 
-    @Autowired
-    ItemService itemService;
-
-    @Autowired
-    PizzaService pizzaService;
 
 
     @Autowired
-    UserRepository userRepository;
+    public InitializeDB(ShoppingCartService shoppingCartService, PizzaService pizzaService,
+                        UserService userService, CustomerService customerService){
+        this.customerService = customerService;
+        this.shoppingCartService = shoppingCartService;
+        this.pizzaService = pizzaService;
+        this.userService = userService;
 
-    @Autowired
-    CustomerRepository customerRepository;
+    }
 
+
+    /**
+     *  Initiallize the Im-Memory DB with this Data
+     */
     @PostConstruct
     public void init()  {
 
@@ -59,7 +63,7 @@ public class InitializeDB {
         user.setLoginName("hadydab");
         user.setPasswordHash("$2a$10$BMqD7u9ctR.Qgzv1J7g7dOf7YZmSNUjYsm0729vBKWzK8bWOMKyMa");
         user.setRole(Role.ADMIN);
-        userRepository.save(user);
+        userService.saveUser(user);
 
 
         User user2 = new User();
@@ -68,7 +72,7 @@ public class InitializeDB {
         user2.setLoginName("smithD");
         user2.setPasswordHash("$2a$10$MvWxw4PDgWYraTat7X7BJeO7Uo8D/rrnu99RjHAd49zCM/LBTAxPi");
         user2.setRole(Role.CUSTOMER);
-        userRepository.save(user2);
+        userService.saveUser(user2);
 
 
         Customer customer = new Customer();
@@ -76,7 +80,7 @@ public class InitializeDB {
         customer.setLoginName(user2.getLoginName());
         customer.setLastName(user.getLastName());
         customer.setFirstName(user2.getFirstName());
-        customerRepository.save(customer);
+        customerService.saveCustomer(customer);
 
 
 

@@ -19,6 +19,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private CustomerRepository customerRepository;
     private OrderedItemsRepository orderedItemsRepository;
 
+    /**
+     *  A simple Construction Injection of Control
+     * @param pizzaRepository
+     * @param itemRepository
+     * @param shoppingCartRepository
+     * @param customerRepository
+     * @param orderedItemsRepository
+     */
     @Autowired
     public ShoppingCartServiceImpl(PizzaRepository pizzaRepository, ItemRepository itemRepository,
                                    ShoppingCartRepository shoppingCartRepository,
@@ -30,6 +38,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         this.orderedItemsRepository = orderedItemsRepository;
     }
 
+
+    /**
+     * Add this Pizza as Item to the shopppinf cart
+     * @param loginName of the customer ordering
+     * @param pizza the pizza to be added
+     * @param quantity the quantity to be orderd
+     */
     @Transactional
     @Override
     public void addItemToCart(String loginName, Pizza pizza, int quantity) {
@@ -42,6 +57,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
 
+    /**
+     * Get all the items in the customer shoppingcart
+     * @param loginName of the customer ordering
+     * @return all the items in the customer shopping cart
+     */
     @Override
     public List<Item> getItemsinShoppingCart(String loginName) {
         Customer customer = customerRepository.findByLoginName(loginName);
@@ -56,8 +76,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
 
-
-
+    /**
+     * Create a shoppingcart for the given customer
+     * @param loginName of the customer
+     */
     @Transactional
     @Override
     public void createShoppingcart(String loginName) {
@@ -73,6 +95,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     }
 
+    /**
+     * Update the quantity of items in the customer shoppingcart
+     * @param loginName of the customer
+     * @param itemid of which the quantity is to be updated
+     * @param quantity the new quantity to be set
+     */
     @Override
     public void updateQuantity(String loginName, int itemid, int quantity) {
         Customer customer = customerRepository.findByLoginName(loginName);
@@ -82,6 +110,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(cart);
     }
 
+
+    /**
+     * Remove the item from the customer shoppingcart
+     * @param loginName of the customer
+     * @param itemId of the item to be removed
+     */
     @Override
     public void removethisItem(String loginName, int itemId) {
         Customer customer = customerRepository.findByLoginName(loginName);
@@ -90,14 +124,24 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCartRepository.save(cart);
     }
 
+
+    /**
+     * Find a shoppingcart associated to the given customer
+     * @param loginName of the customer
+     * @return shoppingcart associated to the customer
+     */
     @Override
     public ShoppingCart findShoppingcartByCustomer(String loginName) {
         Customer customer = customerRepository.findByLoginName(loginName);
-        ShoppingCart cart = shoppingCartRepository.findShoppingCartByCustomer(customer);
-        return cart;
+        return shoppingCartRepository.findShoppingCartByCustomer(customer);
     }
 
 
+    /**
+     * Reorder Items from order history
+     * @param loginName of the customer ordering
+     * @param orderhistoryid of the order history to reorder
+     */
     @Transactional
     @Override
     public void additemsfromorderHistory(String loginName, long orderhistoryid) {
@@ -108,9 +152,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
         ShoppingCart cart = shoppingCartRepository.findShoppingCartByCustomer(customer);
 
-        for(Item item:order.getItemsordered()){
-            cart.addItems(item);
-        }
+        order.getItemsordered().forEach(item -> cart.addItems(item));
 
         shoppingCartRepository.save(cart);
 

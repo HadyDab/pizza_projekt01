@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(new Sort("loginName"));
     }
 
+    @Override
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
     @Transactional
     @Override
     public User create(UserCreateForm form) {
@@ -102,6 +107,7 @@ public class UserServiceImpl implements UserService {
          Customer customer = customerRepository.findByLoginName(loginName);
          customer.setFirstName(user.getFirstName());
          customer.setLastName(user.getLastName());
+         customerRepository.save(customer);
      }
     }
 }
